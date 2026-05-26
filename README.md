@@ -27,6 +27,9 @@ Depois acesse `http://localhost:4173` a partir desta pasta.
 - Tela Conserta Celular.
 - Frame visual fixo de celular em `390x844px`, sem rolagem por tela.
 - Icones por Google Material Symbols.
+- Sem barra de status do celular; a tela mostra apenas elementos do app.
+- Treinos com cenários aleatórios, progresso, favoritos e continuar de onde parou.
+- Conserta Celular com base local de marcas e prints simulados.
 
 ## Checklist de requisitos
 

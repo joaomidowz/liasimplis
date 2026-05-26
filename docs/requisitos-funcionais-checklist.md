@@ -1,50 +1,59 @@
 # Requisitos Funcionais para Check
 
-Use esta lista para marcar o que fica importante para a próxima versão do Lia Simplis.
+Lista sincronizada com os checks marcados no Obsidian em 2026-05-26.
 
 ## Requisitos funcionais
 
-- [ ] RF01 - Tela inicial com poucas opções, ícones grandes e linguagem simples.
-- [ ] RF02 - Trilhas guiadas passo a passo para tarefas digitais.
-- [ ] RF03 - Simulações educativas sem consequências reais.
-- [ ] RF04 - Módulo de prevenção a golpes com cenários interativos.
-- [ ] RF05 - Glossário de termos tecnológicos em linguagem simples.
-- [ ] RF06 - Ajuda rápida para problemas comuns do celular.
+- [x] RF01 - Tela inicial com poucas opções, ícones grandes e linguagem simples.
+- [x] RF02 - Trilhas guiadas passo a passo para tarefas digitais.
+- [x] RF03 - Simulações educativas sem consequências reais.
+- [x] RF04 - Módulo de prevenção a golpes com cenários interativos.
+- [x] RF05 - Glossário de termos tecnológicos em linguagem simples.
+- [x] RF06 - Ajuda rápida para problemas comuns do celular.
 - [ ] RF07 - Registro e apresentação de progresso nas trilhas.
-- [ ] RF08 - Preferências de acessibilidade: fonte, contraste, volume e narração.
+- [x] RF08 - Preferências de acessibilidade: fonte, contraste, volume e narração.
 - [ ] RF09 - Cadastro e edição de conteúdos por administradores ou mediadores.
 - [ ] RF10 - Autenticação simplificada por PIN curto ou biometria.
 - [ ] RF11 - Perfil individual com preferências e limitações.
 - [ ] RF12 - Lembretes e notificações configuráveis.
-- [ ] RF13 - Narração em voz alta e comandos de voz simples.
-- [ ] RF14 - Modo offline para trilhas básicas, glossário e simuladores.
-- [ ] RF15 - Relatórios de progresso para familiares ou cuidadores.
+- [x] RF13 - Narração em voz alta e comandos de voz simples.
+- [x] RF14 - Modo offline para trilhas básicas, glossário e simuladores.
+- [x] RF15 - Relatórios de progresso para familiares ou cuidadores.
 - [ ] RF16 - Canal de suporte integrado para pedir ajuda.
 - [ ] RF17 - Onboarding/tutorial interativo na primeira utilização.
 
 ## Requisitos visuais definidos
 
-- [ ] Todas as telas usam um único tamanho visual de celular.
-- [ ] Nenhuma tela depende de rolagem.
-- [ ] Conteúdo cabe no modo normal e no modo texto grande.
-- [ ] Interface é pensada para celular, não para desktop.
-- [ ] O app pode ser funcional e não precisa seguir 100% o PDF inicial.
-- [ ] Ícones por Google Icons / Material Symbols.
-- [ ] Regra de cores 60/30/10: base `#FAFAFA`, azul `#8080FF`, secundária `#005451`.
+- [x] Todas as telas usam um único tamanho visual de celular.
+- [x] Nenhuma tela depende de rolagem.
+- [x] Conteúdo cabe no modo normal e no modo texto grande.
+- [x] Interface é pensada para celular, não para desktop.
+- [x] O app pode ser funcional e não precisa seguir 100% o PDF inicial.
+- [x] Ícones por Google Icons / Material Symbols.
+- [x] Regra de cores 60/30/10: base `#FAFAFA`, azul `#8080FF`, secundária `#005451`.
+- [x] Interface remove hora, bateria, sinal e outros elementos fora do app.
 
-## Sugestões para decidir
+## Decisões de produto
 
-- [ ] Manter campo de nome na primeira tela.
-- [ ] Manter ajuste de texto grande/normal.
-- [ ] Manter opção de ouvir explicação.
-- [ ] Manter treino principal de mensagem suspeita.
-- [ ] Manter treino de transferência instantânea.
-- [ ] Manter Conserta Celular como módulo funcional.
-- [ ] Manter Dicionário Digital como módulo funcional.
-- [ ] Adicionar progresso visual de trilha.
-- [ ] Adicionar menu inferior fixo.
-- [ ] Cortar autenticação simplificada nesta fase.
-- [ ] Cortar painel administrativo nesta fase.
-- [ ] Cortar notificações nesta fase.
-- [ ] Cortar modo offline nesta fase.
-- [ ] Cortar relatórios para familiares nesta fase.
+- [x] Manter campo de nome na primeira tela.
+- [x] Escolher qual dispositivo está utilizando e tentar captar de início.
+- [x] Manter ajuste de texto grande/normal.
+- [x] Dar mais opções de tamanho ainda maiores.
+- [x] Manter opção de ouvir explicação funcional.
+- [x] Manter treino principal de mensagem suspeita com mais de 5 testes aleatórios.
+- [x] Manter treino de transferência instantânea.
+- [x] Manter Conserta Celular como módulo funcional com base local de marcas e prints simulados.
+- [x] Manter Dicionário Digital como módulo funcional.
+- [x] Adicionar progresso visual de trilha.
+- [x] Adicionar tela de conclusão geral após o dicionário.
+- [x] Adicionar menu inferior fixo.
+- [x] Adicionar favoritos ou continuar de onde parou.
+- [x] Cortar autenticação simplificada nesta fase.
+- [x] Cortar painel administrativo nesta fase.
+- [x] Cortar notificações nesta fase.
+- [x] Cortar modo offline nesta fase.
+- [x] Cortar relatórios para familiares nesta fase.
+
+## Observação de fase
+
+RF14 e RF15 aparecem marcados como requisitos relevantes no documento macro, mas também foram marcados para corte nesta fase. Nesta rodada eles ficam registrados como importantes, mas não implementados no protótipo funcional.

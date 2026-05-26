@@ -88,12 +88,6 @@ button {
   color: var(--color-text);
 }
 
-.app.text-large {
-  --font-base: 17px;
-  --font-large: 20px;
-  --tap-size: 50px;
-}
-
 .screen {
   display: grid;
   height: 100%;
@@ -102,7 +96,11 @@ button {
 }
 
 .screen-start {
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 1fr;
+}
+
+.screen.has-nav {
+  grid-template-rows: auto 1fr 62px;
 }
 
 .content {
@@ -120,31 +118,37 @@ button {
   align-self: end;
 }
 
-.status-bar {
-  display: flex;
-  height: 26px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px var(--space-4) 0;
-  color: #151515;
-  font-size: 0.78rem;
-  font-weight: 850;
-}
-
-.status-icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.95rem;
-}
-
 .topbar {
   display: flex;
-  height: 58px;
+  height: 64px;
   align-items: center;
   gap: var(--space-2);
   border-bottom: 2px solid var(--color-border);
   padding: var(--space-2) var(--space-4);
+}
+
+.app[data-text-size="normal"] {
+  --font-base: 15px;
+  --font-large: 18px;
+  --tap-size: 46px;
+}
+
+.app[data-text-size="large"] {
+  --font-base: 16px;
+  --font-large: 19px;
+  --tap-size: 48px;
+}
+
+.app[data-text-size="extra"] {
+  --font-base: 17px;
+  --font-large: 20px;
+  --tap-size: 50px;
+}
+
+.app[data-text-size="huge"] {
+  --font-base: 18px;
+  --font-large: 21px;
+  --tap-size: 52px;
 }
 
 .topbar-title {
@@ -420,6 +424,10 @@ button {
   gap: var(--space-2);
 }
 
+.compact-options {
+  gap: var(--space-1);
+}
+
 .option-label {
   display: flex;
   align-items: center;
@@ -447,6 +455,108 @@ button {
   border-color: var(--color-text);
   background: var(--color-text);
   color: var(--color-base);
+}
+
+.chip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.device-chip-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.chip {
+  min-height: 40px;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.progress-card,
+.continue-card,
+.clue-card,
+.favorite-list,
+.mock-phone-shot {
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-base);
+}
+
+.progress-card {
+  display: grid;
+  gap: var(--space-2);
+  background: var(--color-surface);
+  padding: var(--space-3);
+}
+
+.progress-card strong,
+.progress-card span {
+  display: block;
+}
+
+.progress-card strong {
+  font-weight: 950;
+}
+
+.progress-card span {
+  color: var(--color-muted);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.compact-progress {
+  padding: var(--space-2) var(--space-3);
+}
+
+.progress-track {
+  height: 9px;
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-base);
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  background: var(--color-secondary);
+}
+
+.continue-card {
+  display: grid;
+  grid-template-columns: 42px 1fr 86px;
+  gap: var(--space-2);
+  align-items: center;
+  background: var(--color-surface);
+  padding: var(--space-2);
+}
+
+.continue-card .square-icon {
+  width: 38px;
+  height: 38px;
+  flex-basis: 38px;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+}
+
+.continue-card strong,
+.continue-card p {
+  display: block;
+  margin: 0;
+}
+
+.continue-card strong {
+  font-size: 0.92rem;
+  font-weight: 950;
+}
+
+.continue-card p {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 750;
 }
 
 .home-grid {
@@ -670,6 +780,29 @@ button {
   gap: var(--space-2);
 }
 
+.clue-card {
+  display: grid;
+  gap: 2px;
+  background: var(--color-surface);
+  padding: var(--space-2) var(--space-3);
+}
+
+.clue-card strong,
+.clue-card span {
+  display: block;
+}
+
+.clue-card strong {
+  color: var(--color-secondary);
+  font-weight: 950;
+}
+
+.clue-card span {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
 .result-hero {
   display: grid;
   justify-items: center;
@@ -713,6 +846,54 @@ button {
   padding: var(--space-4);
 }
 
+.dictionary-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-1);
+}
+
+.dictionary-tabs button {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  border: 2px solid var(--color-border-soft);
+  border-radius: var(--radius);
+  background: var(--color-base);
+  color: var(--color-text);
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.dictionary-tabs button.is-active {
+  border-color: var(--color-border);
+  background: var(--color-text);
+  color: var(--color-base);
+}
+
+.dictionary-tabs .material-symbols-rounded {
+  font-size: 1.2rem;
+}
+
+.favorite-button {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-base);
+  color: var(--color-text);
+  padding: 2px var(--space-3);
+  font-size: 0.86rem;
+  font-weight: 950;
+}
+
+.favorite-button.is-favorite {
+  background: var(--color-secondary);
+  color: var(--color-base);
+}
+
 .dictionary-card {
   padding: var(--space-4);
   font-size: var(--font-large);
@@ -732,19 +913,6 @@ button {
   font-size: 0.9rem;
   font-weight: 750;
   line-height: 1.25;
-}
-
-.example-link {
-  display: flex;
-  min-height: 46px;
-  align-items: center;
-  justify-content: space-between;
-  border: 3px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: var(--space-2) var(--space-3);
-  color: var(--color-primary-strong);
-  font-weight: 950;
-  text-decoration: underline;
 }
 
 .device-list {
@@ -795,6 +963,123 @@ button {
   color: var(--color-muted);
   font-weight: 750;
   line-height: 1.25;
+}
+
+.step-panel ol {
+  display: grid;
+  gap: var(--space-1);
+  padding-left: var(--space-4);
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.24;
+}
+
+.mock-phone-shot {
+  display: grid;
+  gap: var(--space-1);
+  justify-items: center;
+  background: var(--color-base);
+  padding: var(--space-2);
+  text-align: center;
+}
+
+.mock-phone-top {
+  width: 72px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-border-soft);
+}
+
+.mock-phone-line {
+  width: 76%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-border-soft);
+}
+
+.mock-phone-line.strong {
+  width: 62%;
+  background: var(--color-primary);
+}
+
+.mock-phone-highlight {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 3px solid var(--color-secondary);
+  border-radius: var(--radius);
+  color: var(--color-secondary);
+  font-size: 1.5rem;
+}
+
+.mock-phone-shot p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.favorite-list {
+  display: grid;
+  gap: var(--space-2);
+  background: var(--color-surface);
+  padding: var(--space-3);
+}
+
+.favorite-item {
+  display: grid;
+  min-height: 46px;
+  grid-template-columns: 28px 1fr 24px;
+  gap: var(--space-2);
+  align-items: center;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-base);
+  color: var(--color-text);
+  padding: var(--space-2);
+  font-weight: 900;
+  text-align: left;
+}
+
+.empty-state {
+  margin: 0;
+  color: var(--color-muted);
+  font-weight: 800;
+}
+
+.bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 2px solid var(--color-border);
+  background: var(--color-base);
+}
+
+.bottom-nav button {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  border: 0;
+  border-right: 1px solid var(--color-border-soft);
+  background: transparent;
+  color: var(--color-muted);
+  padding: var(--space-1);
+  font-size: 0.66rem;
+  font-weight: 850;
+}
+
+.bottom-nav button:last-child {
+  border-right: 0;
+}
+
+.bottom-nav button.is-active {
+  color: var(--color-secondary);
+}
+
+.bottom-nav .material-symbols-rounded {
+  font-size: 1.35rem;
 }
 
 .pill {
