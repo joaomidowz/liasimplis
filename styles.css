@@ -17,12 +17,12 @@
   --radius: 8px;
   --space-1: 4px;
   --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
+  --space-3: 10px;
+  --space-4: 14px;
   --space-5: 20px;
-  --font-base: 16px;
-  --font-large: 19px;
-  --tap-size: 48px;
+  --font-base: 18px;
+  --font-large: 22px;
+  --tap-size: 52px;
 }
 
 * {
@@ -128,34 +128,34 @@ button {
 }
 
 .app[data-text-size="normal"] {
-  --font-base: 15px;
-  --font-large: 18px;
-  --tap-size: 46px;
-}
-
-.app[data-text-size="large"] {
-  --font-base: 16px;
-  --font-large: 19px;
-  --tap-size: 48px;
-}
-
-.app[data-text-size="extra"] {
   --font-base: 17px;
   --font-large: 20px;
   --tap-size: 50px;
 }
 
-.app[data-text-size="huge"] {
+.app[data-text-size="large"] {
   --font-base: 18px;
-  --font-large: 21px;
+  --font-large: 22px;
   --tap-size: 52px;
+}
+
+.app[data-text-size="extra"] {
+  --font-base: 20px;
+  --font-large: 24px;
+  --tap-size: 54px;
+}
+
+.app[data-text-size="huge"] {
+  --font-base: 22px;
+  --font-large: 26px;
+  --tap-size: 56px;
 }
 
 .topbar-title {
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   font-weight: 950;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -167,7 +167,7 @@ button {
   min-width: 0;
   align-items: center;
   gap: var(--space-2);
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   font-weight: 950;
 }
 
@@ -200,7 +200,7 @@ button {
   background: var(--color-text);
   box-shadow: 0 0 0 14px var(--color-surface);
   color: var(--color-base);
-  font-size: 2.2rem;
+  font-size: 2.45rem;
 }
 
 .round-icon {
@@ -209,7 +209,7 @@ button {
   border-color: var(--color-primary);
   border-radius: 999px;
   color: var(--color-primary-strong);
-  font-size: 1.35rem;
+  font-size: 1.5rem;
 }
 
 .square-icon {
@@ -219,7 +219,7 @@ button {
   border-radius: var(--radius);
   background: var(--color-text);
   color: var(--color-base);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 .mini-icon {
@@ -227,7 +227,7 @@ button {
   height: 32px;
   border-radius: 999px;
   color: var(--color-text);
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .icon-button {
@@ -240,7 +240,7 @@ button {
   border-radius: var(--radius);
   background: var(--color-base);
   color: var(--color-text);
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 950;
 }
 
@@ -261,7 +261,7 @@ button {
 
 .headline {
   margin: 0;
-  font-size: 1.95rem;
+  font-size: 2.12rem;
   font-weight: 950;
   line-height: 1.04;
 }
@@ -273,7 +273,7 @@ button {
 
 .title {
   margin: 0;
-  font-size: 1.62rem;
+  font-size: 1.82rem;
   font-weight: 950;
   line-height: 1.08;
 }
@@ -314,7 +314,7 @@ button {
 
 .field span {
   color: var(--color-muted);
-  font-size: 0.86rem;
+  font-size: 1rem;
   font-weight: 900;
 }
 
@@ -361,7 +361,7 @@ button {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 1.05rem;
+  font-size: 1.16rem;
   font-weight: 950;
 }
 
@@ -376,7 +376,7 @@ button {
   border-radius: var(--radius);
   padding: var(--space-2);
   color: var(--color-muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -433,7 +433,7 @@ button {
   align-items: center;
   gap: var(--space-2);
   margin: 0;
-  font-size: 1.08rem;
+  font-size: 1.2rem;
   font-weight: 950;
 }
 
@@ -471,7 +471,7 @@ button {
   min-height: 40px;
   justify-content: center;
   padding: var(--space-1) var(--space-2);
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-align: center;
 }
 
@@ -503,7 +503,7 @@ button {
 
 .progress-card span {
   color: var(--color-muted);
-  font-size: 0.84rem;
+  font-size: 0.93rem;
   font-weight: 750;
 }
 
@@ -549,13 +549,13 @@ button {
 }
 
 .continue-card strong {
-  font-size: 0.92rem;
+  font-size: 1.02rem;
   font-weight: 950;
 }
 
 .continue-card p {
   color: var(--color-muted);
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 750;
 }
 
@@ -567,7 +567,7 @@ button {
 
 .action-card {
   display: grid;
-  min-height: 138px;
+  min-height: 132px;
   align-content: center;
   justify-items: center;
   gap: var(--space-2);
@@ -580,7 +580,7 @@ button {
 }
 
 .action-card-title {
-  font-size: 1rem;
+  font-size: 1.12rem;
   font-weight: 950;
   line-height: 1.08;
 }
@@ -588,7 +588,7 @@ button {
 .action-card p {
   margin: 0;
   color: var(--color-muted);
-  font-size: 0.86rem;
+  font-size: 0.95rem;
   font-weight: 750;
   line-height: 1.18;
 }
@@ -605,7 +605,7 @@ button {
 .info-panel p {
   margin: var(--space-1) 0 0;
   color: var(--color-muted);
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 750;
   line-height: 1.2;
 }
@@ -643,7 +643,7 @@ button {
 .training-card small {
   margin-top: 2px;
   color: #dedfff;
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 800;
 }
 
@@ -660,7 +660,7 @@ button {
 
 .scenario-header strong {
   display: block;
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 950;
   text-transform: uppercase;
 }
@@ -680,7 +680,7 @@ button {
 
 .safe-ribbon strong {
   display: block;
-  font-size: 1.6rem;
+  font-size: 1.72rem;
   font-weight: 950;
   line-height: 1.04;
 }
@@ -734,7 +734,7 @@ button {
   background: var(--color-text);
   color: var(--color-base);
   padding: 3px var(--space-2);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 950;
   text-transform: uppercase;
 }
@@ -754,7 +754,7 @@ button {
 
 .message-time {
   color: var(--color-muted);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 750;
 }
 
@@ -799,7 +799,7 @@ button {
 
 .clue-card span {
   color: var(--color-muted);
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 800;
 }
 
@@ -860,7 +860,7 @@ button {
   border-radius: var(--radius);
   background: var(--color-base);
   color: var(--color-text);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 850;
 }
 
@@ -885,7 +885,7 @@ button {
   background: var(--color-base);
   color: var(--color-text);
   padding: 2px var(--space-3);
-  font-size: 0.86rem;
+  font-size: 0.95rem;
   font-weight: 950;
 }
 
@@ -910,7 +910,7 @@ button {
   border-radius: var(--radius);
   padding: var(--space-2);
   color: var(--color-muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 750;
   line-height: 1.25;
 }
@@ -939,7 +939,7 @@ button {
   width: 38px;
   height: 38px;
   flex-basis: 38px;
-  font-size: 0.98rem;
+  font-size: 1.08rem;
 }
 
 .device-item.is-selected {
@@ -955,7 +955,7 @@ button {
 
 .step-panel h3 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.18rem;
 }
 
 .step-panel p {
@@ -971,7 +971,7 @@ button {
   padding-left: var(--space-4);
   margin: 0;
   color: var(--color-muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 800;
   line-height: 1.24;
 }
@@ -1018,7 +1018,7 @@ button {
 .mock-phone-shot p {
   margin: 0;
   color: var(--color-muted);
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 750;
 }
 
@@ -1066,7 +1066,7 @@ button {
   background: transparent;
   color: var(--color-muted);
   padding: var(--space-1);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-weight: 850;
 }
 
