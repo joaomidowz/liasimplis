@@ -170,6 +170,27 @@ const scenarios = {
   ],
 };
 
+const resultCopy = {
+  safe: {
+    icon: "verified_user",
+    title: "Boa escolha",
+    message: "Você parou antes de agir.",
+    detail: "Quando houver pressa, link estranho ou pedido de código, confira em um canal oficial.",
+  },
+  help: {
+    icon: "support_agent",
+    title: "Escolha segura",
+    message: "Pedir ajuda é uma boa decisão.",
+    detail: "Conversar com alguém de confiança evita clicar, pagar ou enviar dados por impulso.",
+  },
+  risky: {
+    icon: "warning",
+    title: "Atenção",
+    message: "Essa opção poderia colocar você em risco.",
+    detail: "Em uma situação real, pare, não clique e confirme a informação por outro caminho.",
+  },
+};
+
 const dictionaryTerms = {
   link: {
     title: "Link",
@@ -284,6 +305,10 @@ function persistState() {
 }
 
 function setRoute(route) {
+  if (!screens[route]) {
+    route = "home";
+  }
+
   state.previousRoute = state.route;
   state.route = route;
 
@@ -316,9 +341,12 @@ function currentScenario() {
 }
 
 function render() {
+  if (!screens[state.route]) {
+    state.route = "home";
+  }
+
   app.dataset.textSize = state.textSize;
   app.innerHTML = screens[state.route]();
-  bindEvents();
 }
 
 function icon(name, extraClass = "") {
@@ -895,74 +923,105 @@ function deviceVisualGuide(item) {
 }
 
 function bindEvents() {
-  app.querySelectorAll("[data-route]").forEach((element) => {
-    element.addEventListener("click", () => setRoute(element.dataset.route));
-  });
+  app.addEventListener("click", handleAppClick);
+  app.addEventListener("input", handleAppInput);
+}
 
-  app.querySelectorAll("[data-choice-field]").forEach((element) => {
-    element.addEventListener("click", () => {
-      state[element.dataset.choiceField] = element.dataset.choiceValue;
-      persistState();
+function handleAppClick(event) {
+  const answer = closestControl(event.target, "[data-answer]");
+  if (answer) {
+    event.preventDefault();
+    selectAnswer(answer.dataset.answer);
+    return;
+  }
+
+  const training = closestControl(event.target, "[data-training]");
+  if (training) {
+    event.preventDefault();
+    startTraining(training.dataset.training);
+    return;
+  }
+
+  const term = closestControl(event.target, "[data-term]");
+  if (term) {
+    event.preventDefault();
+    state.activeTerm = term.dataset.term;
+    persistState();
+
+    if (term.dataset.route) {
+      setRoute(term.dataset.route);
+    } else {
       render();
-    });
-  });
+    }
+    return;
+  }
 
-  app.querySelectorAll("[data-device-brand]").forEach((element) => {
-    element.addEventListener("click", () => {
-      state.deviceBrand = element.dataset.deviceBrand;
-      persistState();
-      render();
-    });
-  });
+  const deviceProblem = closestControl(event.target, "[data-device-problem]");
+  if (deviceProblem) {
+    event.preventDefault();
+    state.deviceProblem = deviceProblem.dataset.deviceProblem;
+    persistState();
+    render();
+    return;
+  }
 
-  app.querySelectorAll("[data-training]").forEach((element) => {
-    element.addEventListener("click", () => startTraining(element.dataset.training));
-  });
+  const deviceBrand = closestControl(event.target, "[data-device-brand]");
+  if (deviceBrand) {
+    event.preventDefault();
+    state.deviceBrand = deviceBrand.dataset.deviceBrand;
+    persistState();
+    render();
+    return;
+  }
 
-  app.querySelectorAll("[data-answer]").forEach((element) => {
-    element.addEventListener("click", () => {
-      state.selectedAnswer = element.dataset.answer;
-      state.progress.completed += 1;
+  const choice = closestControl(event.target, "[data-choice-field]");
+  if (choice) {
+    event.preventDefault();
+    state[choice.dataset.choiceField] = choice.dataset.choiceValue;
+    persistState();
+    render();
+    return;
+  }
 
-      if (["safe", "help"].includes(state.selectedAnswer)) {
-        state.progress.protectedChoices += 1;
-      }
+  const action = closestControl(event.target, "[data-action]");
+  if (action) {
+    event.preventDefault();
+    handleAction(action.dataset.action);
+    return;
+  }
 
-      persistState();
-      setRoute("result");
-    });
-  });
+  const route = closestControl(event.target, "[data-route]");
+  if (route) {
+    event.preventDefault();
+    setRoute(route.dataset.route);
+  }
+}
 
-  app.querySelectorAll("[data-term]").forEach((element) => {
-    element.addEventListener("click", () => {
-      state.activeTerm = element.dataset.term;
-      persistState();
-      if (element.dataset.route) {
-        setRoute(element.dataset.route);
-      } else {
-        render();
-      }
-    });
-  });
+function handleAppInput(event) {
+  const field = closestControl(event.target, "[data-field='name']");
 
-  app.querySelectorAll("[data-device-problem]").forEach((element) => {
-    element.addEventListener("click", () => {
-      state.deviceProblem = element.dataset.deviceProblem;
-      persistState();
-      render();
-    });
-  });
+  if (field) {
+    state.name = field.value;
+    persistState();
+  }
+}
 
-  app.querySelectorAll("[data-action]").forEach((element) => {
-    element.addEventListener("click", () => handleAction(element.dataset.action));
-  });
+function closestControl(target, selector) {
+  const start = target instanceof Element ? target : target.parentElement;
+  const element = start?.closest(selector);
+  return element && app.contains(element) ? element : null;
+}
 
-  app.querySelectorAll("[data-field='name']").forEach((element) => {
-    element.addEventListener("input", () => {
-      state.name = element.value;
-      persistState();
-    });
-  });
+function selectAnswer(answer) {
+  state.selectedAnswer = answer;
+  state.progress.completed += 1;
+
+  if (["safe", "help"].includes(state.selectedAnswer)) {
+    state.progress.protectedChoices += 1;
+  }
+
+  persistState();
+  setRoute("result");
 }
 
 function handleAction(action) {
@@ -1180,4 +1239,5 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+bindEvents();
 render();
