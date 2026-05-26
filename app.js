@@ -18,6 +18,14 @@ const explanationModes = [
 const deviceBrands = ["Detectado", "Samsung", "Motorola", "Xiaomi", "iPhone"];
 
 const detectedDevice = detectDeviceBrand();
+let availableVoices = [];
+
+if ("speechSynthesis" in window) {
+  availableVoices = window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => {
+    availableVoices = window.speechSynthesis.getVoices();
+  };
+}
 
 const initialState = {
   route: "start",
@@ -651,7 +659,7 @@ function renderDictionary() {
           <div class="notice-title"><span class="brand-mark">${icon("warning")}</span>${term.alert}</div>
         </section>
 
-        <div class="screen-actions">
+        <div class="screen-actions dictionary-actions">
           <button class="button button-primary" type="button" data-route="conclusion">Entendi</button>
           <button class="button" type="button" data-action="speak">${icon("volume_up")} Ouvir</button>
         </div>
@@ -1009,21 +1017,82 @@ function handleAction(action) {
 }
 
 function speakScreen() {
-  const text = app.innerText
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 420);
-
   if (!("speechSynthesis" in window)) {
     showToast("Este navegador não tem leitura em voz alta disponível.");
     return;
   }
 
+  const text = speechTextForCurrentScreen();
+  const voice = choosePortugueseVoice();
+
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "pt-BR";
-  utterance.rate = 0.9;
+  utterance.rate = 0.86;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  if (voice) {
+    utterance.voice = voice;
+  }
+
   window.speechSynthesis.speak(utterance);
+}
+
+function speechTextForCurrentScreen() {
+  const route = state.route;
+
+  if (route === "dictionary") {
+    const term = dictionaryTerms[state.activeTerm] || dictionaryTerms.link;
+    return `${term.title}. ${term.short} ${term.example} Atenção: ${term.alert}`;
+  }
+
+  if (route === "simulation") {
+    const item = currentScenario();
+    return `Simulação. ${item.title}. Mensagem: ${item.message}. Sinal de atenção: ${item.clue}. O que você faria?`;
+  }
+
+  if (route === "result") {
+    const result = resultCopy[state.selectedAnswer] || resultCopy.safe;
+    const item = currentScenario();
+    return `${result.title}. ${result.message} ${result.detail} Ação segura: ${item.safeAction}`;
+  }
+
+  if (route === "deviceHelp") {
+    const item = deviceHelpDatabase[state.deviceProblem];
+    const steps = item.steps[state.deviceBrand] || item.steps.Detectado;
+    return `${item.title}. ${steps.join(". ")}.`;
+  }
+
+  return app.innerText
+    .replace(/\s+/g, " ")
+    .replace(/Início|Treinos|Ajuda|Dicionário|Salvos/g, "")
+    .trim()
+    .slice(0, 520);
+}
+
+function choosePortugueseVoice() {
+  const voices = availableVoices.length
+    ? availableVoices
+    : window.speechSynthesis.getVoices();
+
+  const preferred = [
+    "google português do brasil",
+    "google portuguese",
+    "microsoft francisca",
+    "microsoft maria",
+    "microsoft daniel",
+    "luciana",
+    "português do brasil",
+    "portuguese brazil",
+  ];
+
+  return (
+    voices.find((voice) => voice.lang?.toLowerCase() === "pt-br" && preferred.some((name) => voice.name.toLowerCase().includes(name))) ||
+    voices.find((voice) => voice.lang?.toLowerCase() === "pt-br") ||
+    voices.find((voice) => voice.lang?.toLowerCase().startsWith("pt")) ||
+    null
+  );
 }
 
 function startVoiceCommand() {
