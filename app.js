@@ -8,7 +8,7 @@ const initialState = {
   name: "",
   textSize: "large",
   explanationMode: "both",
-  selectedTraining: "Mensagem suspeita no WhatsApp",
+  selectedTraining: "Mensagem suspeita",
   selectedAnswer: "safe",
   deviceProblem: "internet",
 };
@@ -31,69 +31,67 @@ const screens = {
 };
 
 const trainingDetails = {
-  "Mensagem suspeita no WhatsApp": {
-    shortTitle: "Treino: WhatsApp",
-    scenario: "Mensagem Suspeita",
-    minutes: "5 minutos",
+  "Mensagem suspeita": {
+    title: "Mensagem suspeita",
+    subtitle: "Treino de golpe por mensagem",
+    minutes: "5 min",
     tag: "Recomendado",
+    icon: "chat",
   },
-  "Pagamento por transferência instantânea": {
-    shortTitle: "Treino: Pagamento",
-    scenario: "Transferência instantânea",
-    minutes: "3 minutos",
+  "Transferência instantânea": {
+    title: "Transferência instantânea",
+    subtitle: "Treino sem dinheiro real",
+    minutes: "3 min",
     tag: "Importante",
+    icon: "payments",
   },
 };
 
 const resultCopy = {
   safe: {
     title: "Boa escolha!",
-    message: "Mensagens com pressa e link podem ser golpe.",
-    footer: "Simulação concluída com sucesso. Nenhuma ação real foi executada.",
-    mark: "✓",
+    icon: "check_circle",
+    message: "Mensagem com pressa e link pode ser golpe.",
+    detail: "O melhor é não clicar e procurar um canal oficial.",
   },
   risky: {
     title: "Vamos com calma",
+    icon: "warning",
     message: "Clicar em link recebido por mensagem pode trazer risco.",
-    footer: "Essa foi só uma simulação. Nada real aconteceu.",
-    mark: "!",
+    detail: "Como é treino, nada real aconteceu. Agora você sabe o sinal de alerta.",
   },
   help: {
     title: "Boa atitude",
-    message: "Pedir ajuda antes de clicar também é uma forma de se proteger.",
-    footer: "Simulação concluída. Nenhuma mensagem real foi enviada.",
-    mark: "✓",
+    icon: "support_agent",
+    message: "Pedir ajuda antes de clicar também protege você.",
+    detail: "Na dúvida, fale com alguém de confiança ou procure o canal oficial.",
   },
 };
 
 const deviceProblems = {
   internet: {
     label: "Estou sem internet",
-    icon: "Wi",
+    icon: "wifi_off",
     stepTitle: "Passo 1 de 3",
-    step:
-      "Veja se o Wi-Fi está ligado. Procure o símbolo de internet na parte de cima da tela.",
+    step: "Veja se o Wi-Fi está ligado no topo da tela.",
   },
   sound: {
-    label: "O celular está sem som",
-    icon: "Som",
+    label: "Celular sem som",
+    icon: "volume_off",
     stepTitle: "Passo 1 de 3",
-    step:
-      "Aperte o botão de volume na lateral do celular e veja se aparece uma barra na tela.",
+    step: "Aperte o volume lateral e confira se o som não está no silencioso.",
   },
   brightness: {
-    label: "A tela está muito escura",
-    icon: "Luz",
+    label: "Tela muito escura",
+    icon: "brightness_6",
     stepTitle: "Passo 1 de 3",
-    step:
-      "Deslize o dedo de cima para baixo e procure o controle de brilho da tela.",
+    step: "Abra os controles rápidos e aumente o brilho.",
   },
   app: {
-    label: "Um aplicativo travou",
-    icon: "App",
+    label: "Aplicativo travou",
+    icon: "app_blocking",
     stepTitle: "Passo 1 de 3",
-    step:
-      "Feche o aplicativo e abra novamente. Se continuar travado, reinicie o celular.",
+    step: "Feche o aplicativo e abra novamente.",
   },
 };
 
@@ -129,7 +127,10 @@ function render() {
   app.classList.toggle("text-large", state.textSize === "large");
   app.innerHTML = screens[state.route]();
   bindEvents();
-  app.scrollIntoView({ block: "start" });
+}
+
+function icon(name, extraClass = "") {
+  return `<span class="material-symbols-rounded ${extraClass}" aria-hidden="true">${name}</span>`;
 }
 
 function statusBar() {
@@ -137,9 +138,9 @@ function statusBar() {
     <div class="status-bar" aria-hidden="true">
       <span>9:41</span>
       <span class="status-icons">
-        <span class="signal"><span></span><span></span><span></span></span>
-        <span class="wifi"></span>
-        <span class="battery"></span>
+        ${icon("signal_cellular_alt")}
+        ${icon("wifi")}
+        ${icon("battery_full")}
       </span>
     </div>
   `;
@@ -147,11 +148,11 @@ function statusBar() {
 
 function topbar(title, options = {}) {
   const back = options.backRoute
-    ? `<button class="icon-button" type="button" data-route="${options.backRoute}" aria-label="Voltar">‹</button>`
+    ? `<button class="icon-button" type="button" data-route="${options.backRoute}" aria-label="Voltar">${icon("arrow_back")}</button>`
     : "";
 
   const brand = options.brand
-    ? `<span class="brand"><span class="brand-mark">S</span>LiaSimplis</span>`
+    ? `<span class="brand"><span class="brand-mark">${icon("shield")}</span>LiaSimplis</span>`
     : `<span class="topbar-title">${title}</span>`;
 
   return `
@@ -159,25 +160,25 @@ function topbar(title, options = {}) {
     <header class="topbar">
       ${back}
       ${brand}
-      <button class="icon-button" type="button" data-action="speak" aria-label="Ouvir explicação">))</button>
-      <button class="icon-button" type="button" data-action="toggle-text" aria-label="Alternar tamanho do texto">T</button>
+      <button class="icon-button" type="button" data-action="speak" aria-label="Ouvir explicação">${icon("volume_up")}</button>
+      <button class="icon-button" type="button" data-action="toggle-text" aria-label="Alternar tamanho do texto">${icon("text_fields")}</button>
     </header>
   `;
 }
 
 function renderStart() {
   return `
-    <article class="screen screen-centered" data-screen="start">
+    <article class="screen screen-start" data-screen="start">
       ${statusBar()}
-      <div class="content stack-large">
-        <div class="center">
-          <div class="hero-mark" aria-hidden="true">✓</div>
+      <div class="content">
+        <section class="hero-block center">
+          <div class="hero-mark">${icon("verified_user")}</div>
           <h1 class="headline">Aprenda tecnologia <span class="accent">sem medo</span></h1>
-          <p class="subtitle">Simulações seguras para o seu dia a dia.</p>
-        </div>
+          <p class="subtitle">Treinos seguros para o dia a dia.</p>
+        </section>
 
         <label class="field">
-          <span>Como posso te chamar?</span>
+          <span>Seu nome</span>
           <input
             type="text"
             name="name"
@@ -188,18 +189,17 @@ function renderStart() {
           />
         </label>
 
-        <section class="notice" aria-label="Aviso de Segurança">
-          <div class="notice-title"><span class="brand-mark">S</span>Aviso de Segurança</div>
-          <p class="body-copy"><strong>Nada real será enviado, pago ou alterado</strong> no seu celular durante o uso deste aplicativo.</p>
-          <p class="notice-soft">Todas as mensagens e telas que você verá são apenas simulações fictícias para treino.</p>
+        <section class="notice compact-notice" aria-label="Aviso de Segurança">
+          <div class="notice-title"><span class="brand-mark">${icon("shield")}</span>Aviso de Segurança</div>
+          <p class="body-copy"><strong>Nada real será enviado, pago ou alterado.</strong></p>
+          <p class="notice-soft">Tudo aqui é simulação fictícia para treino.</p>
         </section>
 
-        <div class="stack">
-          <button class="button button-primary" type="button" data-route="adjust">Começar ›</button>
-          <button class="button" type="button" data-action="large-and-adjust">Preciso de texto maior</button>
+        <div class="screen-actions">
+          <button class="button button-primary" type="button" data-route="adjust">Começar ${icon("arrow_forward")}</button>
+          <button class="button" type="button" data-action="large-and-adjust">${icon("text_increase")} Texto maior</button>
         </div>
       </div>
-      <p class="footer-note">Ao continuar, você confirma que entende que este é um ambiente de testes.</p>
     </article>
   `;
 }
@@ -208,30 +208,27 @@ function renderAdjust() {
   return `
     <article class="screen" data-screen="adjust">
       ${topbar("Ajuste rápido", { backRoute: "start" })}
-      <div class="content stack-large">
-        <div>
-          <h1 class="title">Personalize sua experiência</h1>
-          <p class="subtitle">Escolha como você prefere ler e ouvir as explicações.</p>
-        </div>
+      <div class="content">
+        <section class="screen-heading">
+          <h1 class="title">Como você prefere usar?</h1>
+          <p class="subtitle">Essas opções podem mudar depois.</p>
+        </section>
 
         <section class="option-group" aria-label="Tamanho do texto">
-          <h2 class="option-label"><span aria-hidden="true">T</span>Tamanho do texto:</h2>
+          <h2 class="option-label">${icon("text_fields")}Tamanho do texto</h2>
           ${choiceButton("textSize", "normal", "Normal")}
           ${choiceButton("textSize", "large", "Grande")}
         </section>
 
         <section class="option-group" aria-label="Modo de explicação">
-          <h2 class="option-label"><span aria-hidden="true">))</span>Modo de explicação:</h2>
+          <h2 class="option-label">${icon("record_voice_over")}Explicação</h2>
           ${choiceButton("explanationMode", "read", "Ler")}
           ${choiceButton("explanationMode", "listen", "Ouvir")}
           ${choiceButton("explanationMode", "both", "Os dois")}
         </section>
 
-        <div class="spacer"></div>
-
-        <div class="stack">
+        <div class="screen-actions">
           <button class="button button-accent" type="button" data-route="home">Continuar</button>
-          <p class="subtitle center">Você pode mudar isso depois.</p>
         </div>
       </div>
     </article>
@@ -240,29 +237,29 @@ function renderAdjust() {
 
 function renderHome() {
   const name = state.name.trim();
-  const greeting = name ? `Olá, ${escapeHtml(name)}.` : "Olá.";
+  const greeting = name ? `Bem-vindo(a), ${escapeHtml(name)}!` : "Bem-vindo(a)!";
 
   return `
     <article class="screen" data-screen="home">
       ${topbar("", { brand: true })}
-      <div class="content stack-large">
-        <div>
-          <h1 class="title">${greeting}<br />O que você quer fazer hoje?</h1>
-          <div class="title-mark" aria-hidden="true"></div>
-        </div>
+      <div class="content">
+        <section class="screen-heading">
+          <h1 class="title">${greeting}</h1>
+          <p class="subtitle">Como podemos ajudar hoje?</p>
+        </section>
 
         <div class="home-grid">
-          ${actionCard("trainings", "Livro", "Aprender e treinar", "Fazer exercícios práticos")}
-          ${actionCard("deviceHelp", "Cel", "Consertar celular", "Resolver problemas técnicos")}
-          ${actionCard("dictionary", "?", "Tirar dúvida", "Entender termos difíceis")}
-          ${actionCard("trainings", "!", "Ver sinais de golpe", "Proteja seus dados agora")}
+          ${actionCard("trainings", "menu_book", "Aprender e treinar", "Exercícios práticos")}
+          ${actionCard("deviceHelp", "smartphone", "Consertar celular", "Ajuda rápida")}
+          ${actionCard("dictionary", "help", "Tirar dúvida", "Palavras simples")}
+          ${actionCard("trainings", "security", "Ver sinais de golpe", "Proteção")}
         </div>
 
         <section class="info-panel" aria-label="Lembrete de Segurança">
-          <span class="square-icon">S</span>
+          <span class="square-icon">${icon("gpp_good")}</span>
           <div>
             <strong>Lembrete de Segurança</strong>
-            <p>Tudo aqui é uma simulação. Sinta-se seguro para explorar e clicar.</p>
+            <p>Tudo aqui é uma simulação segura.</p>
           </div>
         </section>
       </div>
@@ -273,22 +270,26 @@ function renderHome() {
 function renderTrainings() {
   return `
     <article class="screen" data-screen="trainings">
-      ${topbar("Aprender e treinar", { backRoute: "home" })}
-      <div class="content stack-large">
-        <div>
+      ${topbar("Aprender", { backRoute: "home" })}
+      <div class="content">
+        <section class="screen-heading">
           <h1 class="title">Escolha um treino</h1>
-          <p class="subtitle">Selecione uma situação abaixo para praticar como se proteger na internet.</p>
+          <p class="subtitle">Pratique situações comuns sem risco.</p>
+        </section>
+
+        <div class="training-list">
+          ${trainingButton("Mensagem suspeita")}
+          ${trainingButton("Transferência instantânea")}
         </div>
 
-        <div class="stack">
-          ${trainingButton("Mensagem suspeita no WhatsApp")}
-          ${trainingButton("Pagamento por transferência instantânea")}
-        </div>
+        <section class="notice mini-notice">
+          <div class="notice-title"><span class="brand-mark">${icon("lock")}</span>Nada real será alterado.</div>
+        </section>
 
-        <div class="spacer"></div>
-        <button class="button" type="button" data-route="home">‹ Voltar para o Início</button>
+        <div class="screen-actions">
+          <button class="button" type="button" data-route="home">${icon("home")} Início</button>
+        </div>
       </div>
-      <p class="footer-note">LEMBRE-SE: NADA REAL SERÁ ALTERADO NO SEU CELULAR.</p>
     </article>
   `;
 }
@@ -298,35 +299,33 @@ function renderTrainingStart() {
 
   return `
     <article class="screen" data-screen="trainingStart">
-      ${topbar(training.shortTitle, { backRoute: "trainings" })}
-      <div class="content stack-large">
-        <div class="message-header">
-          <span class="icon-button" aria-hidden="true">□</span>
+      ${topbar("Treino", { backRoute: "trainings" })}
+      <div class="content">
+        <section class="scenario-header">
+          <span class="square-icon">${icon(training.icon)}</span>
           <div>
-            <h1 class="title" style="margin:0">CENÁRIO</h1>
-            <p class="subtitle">${training.scenario}</p>
+            <strong>Cenário</strong>
+            <p>${training.title}</p>
           </div>
-        </div>
-
-        <section class="safe-ribbon" aria-label="Aviso importante">
-          <strong>AVISO IMPORTANTE</strong>
-          <p class="body-copy"><strong>Isto é apenas um treino de segurança.</strong></p>
-          <p class="body-copy">Nenhuma mensagem real será enviada e nenhum dado será alterado no seu celular.</p>
-          <p class="body-copy"><strong><u>Ambiente 100% seguro.</u></strong></p>
         </section>
 
-        <section class="stack" aria-label="O que vamos aprender">
-          <h2 class="option-label">O que vamos aprender?</h2>
+        <section class="safe-ribbon" aria-label="Aviso importante">
+          <strong>Aviso importante</strong>
+          <p class="body-copy">Isto é apenas um treino de segurança.</p>
+          <p class="body-copy">Nenhuma mensagem real será enviada.</p>
+        </section>
+
+        <section class="learn-list" aria-label="O que vamos aprender">
+          <h2 class="option-label">${icon("checklist")}Você vai aprender</h2>
           <ol class="number-list">
-            <li><span class="number">1</span><span>Identificar uma mensagem de banco falsa.</span></li>
-            <li><span class="number">2</span><span>Saber onde clicar para se proteger.</span></li>
+            <li><span class="number">1</span><span>Identificar sinal de golpe.</span></li>
+            <li><span class="number">2</span><span>Escolher uma ação segura.</span></li>
           </ol>
         </section>
 
-        <div class="spacer"></div>
-        <div class="stack">
-          <button class="button button-primary" type="button" data-route="simulation">▷ COMEÇAR TREINO</button>
-          <button class="button" type="button" data-route="trainings">VOLTAR</button>
+        <div class="screen-actions">
+          <button class="button button-primary" type="button" data-route="simulation">${icon("play_arrow")} Começar treino</button>
+          <button class="button" type="button" data-route="trainings">Voltar</button>
         </div>
       </div>
     </article>
@@ -336,34 +335,35 @@ function renderTrainingStart() {
 function renderSimulation() {
   return `
     <article class="screen" data-screen="simulation">
-      ${topbar("Simulação de Risco", { backRoute: "trainingStart" })}
-      <div class="content stack-large">
-        <h1 class="title">Você recebeu esta mensagem no seu celular:</h1>
+      ${topbar("Simulação", { backRoute: "trainingStart" })}
+      <div class="content">
+        <section class="screen-heading compact-heading">
+          <h1 class="title">Mensagem recebida</h1>
+          <p class="subtitle">Esta mensagem é fictícia.</p>
+        </section>
 
         <section class="message-card" aria-label="Mensagem fictícia">
-          <span class="fiction-badge">FICTÍCIO</span>
+          <span class="fiction-badge">Fictício</span>
           <div class="message-header">
-            <span class="square-icon">Msg</span>
+            <span class="square-icon">${icon("sms")}</span>
             <div>
-              <div class="message-title">SMS: DESCONHECIDO</div>
+              <div class="message-title">SMS desconhecido</div>
               <div class="message-time">Enviado agora</div>
             </div>
           </div>
-          <p class="message-text">"Prezado cliente, seu <u>acesso bancário</u> foi bloqueado por suspeita de fraude."</p>
-          <p class="message-text">"Para desbloquear agora, utilize o link abaixo:"</p>
-          <span class="fake-link">bit.ly/ajuda-banco-seguro</span>
+          <p class="message-text">"Seu acesso bancário foi bloqueado por suspeita."</p>
+          <span class="fake-link">bit.ly/ajuda-banco</span>
         </section>
 
-        <section class="stack" aria-label="Escolha uma resposta">
+        <section class="answer-panel" aria-label="Escolha uma resposta">
           <h2 class="option-label center">O que você faria?</h2>
-          <button class="button button-primary" type="button" data-answer="safe">Não clicar no link</button>
-          <button class="button" type="button" data-answer="risky">Clicar para resolver</button>
+          <button class="button button-primary" type="button" data-answer="safe">Não clicar</button>
+          <button class="button" type="button" data-answer="risky">Clicar</button>
           <button class="button" type="button" data-answer="help">Pedir ajuda</button>
         </section>
 
-        <section class="notice" aria-label="Ambiente Seguro">
-          <div class="notice-title"><span class="brand-mark">S</span>Ambiente Seguro</div>
-          <p class="body-copy">Esta é uma simulação educativa. Nenhuma mensagem real será enviada e seu banco não será afetado.</p>
+        <section class="notice mini-notice">
+          <div class="notice-title"><span class="brand-mark">${icon("shield")}</span>Ambiente seguro</div>
         </section>
       </div>
     </article>
@@ -376,22 +376,23 @@ function renderResult() {
   return `
     <article class="screen" data-screen="result">
       ${topbar("Resultado", { backRoute: "simulation" })}
-      <div class="content stack-large">
+      <div class="content">
         <section class="result-hero">
-          <div class="result-ring" aria-hidden="true"><span>${result.mark}</span></div>
+          <div class="result-ring">${icon(result.icon)}</div>
           <h1 class="title">${result.title}</h1>
         </section>
 
-        <p class="result-message">${result.message}</p>
+        <section class="result-message">
+          <strong>${result.message}</strong>
+          <span>${result.detail}</span>
+        </section>
 
-        <section class="stack" aria-label="Próximo passo">
-          <div class="section-kicker center">O que deseja fazer agora?</div>
-          <button class="button button-primary" type="button" data-route="trainings">↻ Fazer outro treino</button>
-          <button class="button" type="button" data-route="dictionary">? O que é link?</button>
-          <button class="button button-dashed" type="button" data-route="home">‹ Voltar para início</button>
+        <section class="screen-actions">
+          <button class="button button-primary" type="button" data-route="trainings">${icon("restart_alt")} Outro treino</button>
+          <button class="button" type="button" data-route="dictionary">${icon("help")} O que é link?</button>
+          <button class="button button-dashed" type="button" data-route="home">${icon("home")} Início</button>
         </section>
       </div>
-      <p class="footer-note">${result.footer}</p>
     </article>
   `;
 }
@@ -399,28 +400,29 @@ function renderResult() {
 function renderDictionary() {
   return `
     <article class="screen" data-screen="dictionary">
-      ${topbar("O que é link?", { backRoute: state.previousRoute === "result" ? "result" : "home" })}
-      <div class="content stack-large">
+      ${topbar("Dicionário", { backRoute: state.previousRoute === "result" ? "result" : "home" })}
+      <div class="content">
         <section class="dictionary-hero" aria-label="Dicionário Digital">
-          <span class="round-icon">○</span>
+          <span class="round-icon">${icon("language")}</span>
           <strong class="pill">Dicionário Digital</strong>
         </section>
 
-        <h1 class="title">Pense no link como um botão invisível.</h1>
+        <section class="screen-heading">
+          <h1 class="title">O que é link?</h1>
+          <p class="subtitle">Pense no link como um caminho.</p>
+        </section>
 
-        <p class="dictionary-card">Um <u>link</u> é um caminho que abre uma página, foto, vídeo ou aplicativo.</p>
+        <p class="dictionary-card">Um link abre uma página, foto, vídeo ou aplicativo.</p>
 
-        <p class="dictionary-tip"><span class="round-icon" style="width:34px;height:34px;font-size:1rem">i</span><span>"Geralmente ele aparece em azul ou sublinhado nas mensagens que você recebe."</span></p>
+        <p class="dictionary-tip"><span class="mini-icon">${icon("info")}</span><span>Geralmente aparece em azul ou sublinhado.</span></p>
 
-        <span class="example-link">www.exemplo.com.br <span>›</span></span>
+        <span class="example-link">www.exemplo.com.br ${icon("open_in_new")}</span>
 
-        <div class="spacer"></div>
-        <div class="stack">
+        <div class="screen-actions">
           <button class="button button-primary" type="button" data-route="home">Entendi</button>
-          <button class="button" type="button" data-action="speak">)) Ouvir explicação</button>
+          <button class="button" type="button" data-action="speak">${icon("volume_up")} Ouvir</button>
         </div>
       </div>
-      <p class="footer-note" style="background:var(--color-text);color:var(--color-base);font-style:normal">SIMULAÇÃO EDUCATIVA LIASIMPLIS</p>
     </article>
   `;
 }
@@ -431,11 +433,11 @@ function renderDeviceHelp() {
   return `
     <article class="screen" data-screen="deviceHelp">
       ${topbar("Conserta Celular", { backRoute: "home" })}
-      <div class="content stack-large">
-        <div>
-          <h1 class="title">Resolver problema no celular</h1>
-          <p class="subtitle">Escolha o problema que está acontecendo agora:</p>
-        </div>
+      <div class="content">
+        <section class="screen-heading compact-heading">
+          <h1 class="title">Qual é o problema?</h1>
+          <p class="subtitle">Escolha uma opção.</p>
+        </section>
 
         <div class="device-list">
           ${Object.entries(deviceProblems)
@@ -447,11 +449,12 @@ function renderDeviceHelp() {
           <h3>${current.label}</h3>
           <strong>${current.stepTitle}</strong>
           <p>${current.step}</p>
-          <button class="button" type="button" data-action="done-step">Já conferi</button>
+          <button class="button button-small" type="button" data-action="done-step">Já conferi</button>
         </section>
 
-        <div class="spacer"></div>
-        <button class="button" type="button" data-route="home">‹ Voltar para o Início</button>
+        <div class="screen-actions">
+          <button class="button" type="button" data-route="home">${icon("home")} Início</button>
+        </div>
       </div>
     </article>
   `;
@@ -468,18 +471,17 @@ function choiceButton(field, value, label) {
       data-choice-value="${value}"
     >
       <span>${label}</span>
-      ${isSelected ? '<span class="checkmark">✓</span>' : ""}
+      ${isSelected ? icon("check") : ""}
     </button>
   `;
 }
 
-function actionCard(route, icon, title, text) {
+function actionCard(route, iconName, title, text) {
   return `
     <button class="action-card" type="button" data-route="${route}">
-      <span class="round-icon" aria-hidden="true">${icon}</span>
+      <span class="round-icon">${icon(iconName)}</span>
       <span class="action-card-title">${title}</span>
       <p>${text}</p>
-      <span class="link-label">Tocar ›</span>
     </button>
   `;
 }
@@ -488,10 +490,14 @@ function trainingButton(name) {
   const details = trainingDetails[name];
 
   return `
-    <div>
-      <div class="training-meta"><span class="pill">${details.tag}</span><span>${details.minutes}</span></div>
-      <button class="button button-primary training-button" type="button" data-training="${name}">${name}</button>
-    </div>
+    <button class="training-card" type="button" data-training="${name}">
+      <span class="square-icon">${icon(details.icon)}</span>
+      <span>
+        <strong>${details.title}</strong>
+        <small>${details.tag} · ${details.minutes}</small>
+      </span>
+      ${icon("arrow_forward_ios", "end-icon")}
+    </button>
   `;
 }
 
@@ -500,7 +506,7 @@ function deviceButton(key, item) {
 
   return `
     <button class="device-item ${selected ? "is-selected" : ""}" type="button" data-device="${key}">
-      <span class="square-icon" aria-hidden="true">${item.icon}</span>
+      <span class="square-icon">${icon(item.icon)}</span>
       <span>${item.label}</span>
     </button>
   `;
@@ -576,7 +582,7 @@ function handleAction(action) {
   }
 
   if (action === "done-step") {
-    showToast("Certo. No aplicativo final, o próximo passo apareceria aqui.");
+    showToast("Certo. No app final, o próximo passo aparece aqui.");
   }
 }
 
@@ -585,7 +591,7 @@ function speakScreen() {
     .replace(/\s+/g, " ")
     .replace("9:41", "")
     .trim()
-    .slice(0, 420);
+    .slice(0, 380);
 
   if (!("speechSynthesis" in window)) {
     showToast("Este navegador não tem leitura em voz alta disponível.");
@@ -608,7 +614,7 @@ function showToast(message) {
   toast.textContent = message;
   document.body.append(toast);
 
-  window.setTimeout(() => toast.remove(), 2800);
+  window.setTimeout(() => toast.remove(), 2600);
 }
 
 function escapeHtml(value) {

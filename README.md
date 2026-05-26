@@ -25,6 +25,12 @@ Depois acesse `http://localhost:4173` a partir desta pasta.
 - Resultado da decisao.
 - Dicionario digital para o termo "link".
 - Tela Conserta Celular.
+- Frame visual fixo de celular em `390x844px`, sem rolagem por tela.
+- Icones por Google Material Symbols.
+
+## Checklist de requisitos
+
+A lista para marcar requisitos importantes está em `docs/requisitos-funcionais-checklist.md`.
 
 ## Onde ajustar cores depois
 
