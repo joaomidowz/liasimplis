@@ -37,6 +37,7 @@ const initialState = {
   selectedTraining: "Mensagem suspeita",
   currentScenarioId: "msg-1",
   selectedAnswer: "safe",
+  selectedAnswerLabel: "Não clicar / parar",
   activeTerm: "link",
   deviceProblem: "internet",
   showDeviceGuide: true,
@@ -92,6 +93,11 @@ const scenarios = {
       link: "bit.ly/ajuda-banco",
       clue: "Pressa + link encurtado",
       safeAction: "Não clicar no link.",
+      answers: [
+        { type: "safe", label: "Abrir app oficial" },
+        { type: "help", label: "Perguntar antes" },
+        { type: "risky", label: "Tocar no link" },
+      ],
     },
     {
       id: "msg-2",
@@ -101,6 +107,11 @@ const scenarios = {
       link: "premio-agora.info",
       clue: "Promessa boa demais",
       safeAction: "Não enviar dados.",
+      answers: [
+        { type: "safe", label: "Apagar mensagem" },
+        { type: "help", label: "Mostrar para alguém" },
+        { type: "risky", label: "Enviar CPF" },
+      ],
     },
     {
       id: "msg-3",
@@ -110,6 +121,11 @@ const scenarios = {
       link: "taxa-entrega.net",
       clue: "Cobrança inesperada",
       safeAction: "Conferir no app oficial.",
+      answers: [
+        { type: "safe", label: "Ver app da entrega" },
+        { type: "help", label: "Pedir ajuda" },
+        { type: "risky", label: "Pagar a taxa" },
+      ],
     },
     {
       id: "msg-4",
@@ -119,6 +135,11 @@ const scenarios = {
       link: "Sem link",
       clue: "Pedido de código pessoal",
       safeAction: "Nunca passar código.",
+      answers: [
+        { type: "safe", label: "Guardar o código" },
+        { type: "help", label: "Ligar para suporte real" },
+        { type: "risky", label: "Mandar o código" },
+      ],
     },
     {
       id: "msg-5",
@@ -128,6 +149,11 @@ const scenarios = {
       link: "Sem link",
       clue: "Urgência + número novo",
       safeAction: "Ligar para confirmar.",
+      answers: [
+        { type: "safe", label: "Ligar para a pessoa" },
+        { type: "help", label: "Chamar familiar" },
+        { type: "risky", label: "Transferir agora" },
+      ],
     },
     {
       id: "msg-6",
@@ -137,6 +163,53 @@ const scenarios = {
       link: "beneficio-seguro.online",
       clue: "Ameaça de perder benefício",
       safeAction: "Procurar canal oficial.",
+      answers: [
+        { type: "safe", label: "Buscar site oficial" },
+        { type: "help", label: "Pedir confirmação" },
+        { type: "risky", label: "Atualizar no link" },
+      ],
+    },
+    {
+      id: "msg-7",
+      sender: "Loja desconhecida",
+      title: "Cupom exagerado",
+      message: "Cupom de 90% só hoje. Preencha cadastro e cartão para reservar.",
+      link: "oferta-relampago.shop",
+      clue: "Desconto alto + pedido de cartão",
+      safeAction: "Conferir a loja fora do link recebido.",
+      answers: [
+        { type: "safe", label: "Pesquisar a loja" },
+        { type: "help", label: "Perguntar antes" },
+        { type: "risky", label: "Cadastrar cartão" },
+      ],
+    },
+    {
+      id: "msg-8",
+      sender: "Contato com áudio",
+      title: "Voz suspeita",
+      message: "Recebi um áudio curto pedindo segredo e dinheiro urgente.",
+      link: "Sem link",
+      clue: "Pedido de segredo + urgência",
+      safeAction: "Confirmar por ligação ou vídeo antes de agir.",
+      answers: [
+        { type: "safe", label: "Fazer chamada de vídeo" },
+        { type: "help", label: "Avisar a família" },
+        { type: "risky", label: "Mandar dinheiro" },
+      ],
+    },
+    {
+      id: "msg-9",
+      sender: "QR Code recebido",
+      title: "QR Code falso",
+      message: "Escaneie este QR Code para evitar o cancelamento da sua conta.",
+      link: "Imagem com QR Code",
+      clue: "Ameaça + código desconhecido",
+      safeAction: "Não escanear código enviado por desconhecido.",
+      answers: [
+        { type: "safe", label: "Ignorar o QR Code" },
+        { type: "help", label: "Conferir com suporte" },
+        { type: "risky", label: "Escanear código" },
+      ],
     },
   ],
   "Transferência instantânea": [
@@ -148,6 +221,11 @@ const scenarios = {
       link: "treino sem dinheiro real",
       clue: "Nome diferente do combinado",
       safeAction: "Conferir antes de confirmar.",
+      answers: [
+        { type: "safe", label: "Revisar nome" },
+        { type: "help", label: "Confirmar por ligação" },
+        { type: "risky", label: "Confirmar mesmo assim" },
+      ],
     },
     {
       id: "pix-2",
@@ -157,6 +235,11 @@ const scenarios = {
       link: "treino sem dinheiro real",
       clue: "Valor divergente",
       safeAction: "Parar e revisar.",
+      answers: [
+        { type: "safe", label: "Corrigir valor" },
+        { type: "help", label: "Perguntar de novo" },
+        { type: "risky", label: "Pagar valor maior" },
+      ],
     },
     {
       id: "pix-3",
@@ -166,6 +249,53 @@ const scenarios = {
       link: "treino sem dinheiro real",
       clue: "Pressão para agir rápido",
       safeAction: "Pedir ajuda ou confirmar.",
+      answers: [
+        { type: "safe", label: "Parar a operação" },
+        { type: "help", label: "Pedir ajuda" },
+        { type: "risky", label: "Pagar com pressa" },
+      ],
+    },
+    {
+      id: "pix-4",
+      sender: "Tela de treino",
+      title: "Comprovante falso",
+      message: "A pessoa mandou um comprovante por imagem e pediu devolução de valor.",
+      link: "treino sem dinheiro real",
+      clue: "Comprovante fora do app",
+      safeAction: "Conferir o saldo no aplicativo antes de devolver.",
+      answers: [
+        { type: "safe", label: "Ver saldo no app" },
+        { type: "help", label: "Chamar banco" },
+        { type: "risky", label: "Devolver rápido" },
+      ],
+    },
+    {
+      id: "pix-5",
+      sender: "Tela de treino",
+      title: "QR Code de cobrança",
+      message: "O QR Code mostra um recebedor diferente da loja combinada.",
+      link: "treino sem dinheiro real",
+      clue: "Recebedor diferente",
+      safeAction: "Cancelar e pedir outro meio oficial de pagamento.",
+      answers: [
+        { type: "safe", label: "Cancelar pagamento" },
+        { type: "help", label: "Falar com a loja" },
+        { type: "risky", label: "Pagar o QR Code" },
+      ],
+    },
+    {
+      id: "pix-6",
+      sender: "Tela de treino",
+      title: "Agendamento estranho",
+      message: "O pagamento aparece agendado para outra data, mas a pessoa diz que já caiu.",
+      link: "treino sem dinheiro real",
+      clue: "Data diferente + pressão",
+      safeAction: "Conferir status no app e não enviar novo valor.",
+      answers: [
+        { type: "safe", label: "Ver status no app" },
+        { type: "help", label: "Pedir orientação" },
+        { type: "risky", label: "Enviar de novo" },
+      ],
     },
   ],
 };
@@ -340,6 +470,16 @@ function currentScenario() {
   return list.find((item) => item.id === state.currentScenarioId) || list[0];
 }
 
+function scenarioAnswers(item = currentScenario()) {
+  return (
+    item.answers || [
+      { type: "safe", label: "Não clicar / parar" },
+      { type: "help", label: "Pedir ajuda" },
+      { type: "risky", label: "Continuar" },
+    ]
+  );
+}
+
 function render() {
   if (!screens[state.route]) {
     state.route = "home";
@@ -510,13 +650,16 @@ function renderHome() {
 }
 
 function renderTrainings() {
+  const suspiciousCount = scenarios["Mensagem suspeita"].length;
+  const transferCount = scenarios["Transferência instantânea"].length;
+
   return `
     <article class="screen has-nav" data-screen="trainings">
       ${topbar("Treinos", { backRoute: "home" })}
       <div class="content">
         <section class="screen-heading">
           <h1 class="title">Escolha um treino</h1>
-          <p class="subtitle">Mensagem suspeita tem 6 testes aleatórios.</p>
+          <p class="subtitle">${suspiciousCount} mensagens e ${transferCount} transferências para praticar.</p>
         </section>
 
         <div class="training-list">
@@ -583,6 +726,7 @@ function renderTrainingStart() {
 
 function renderSimulation() {
   const item = currentScenario();
+  const answers = scenarioAnswers(item);
 
   return `
     <article class="screen has-nav" data-screen="simulation">
@@ -613,9 +757,7 @@ function renderSimulation() {
 
         <section class="answer-panel" aria-label="Escolha uma resposta">
           <h2 class="option-label center">O que você faria?</h2>
-          <button class="button button-primary" type="button" data-answer="safe">Não clicar / parar</button>
-          <button class="button" type="button" data-answer="help">Pedir ajuda</button>
-          <button class="button" type="button" data-answer="risky">Continuar</button>
+          ${answers.map(answerButton).join("")}
         </section>
       </div>
       ${bottomNav("trainings")}
@@ -638,6 +780,7 @@ function renderResult() {
 
         <section class="result-message">
           <strong>${result.message}</strong>
+          <span>Você escolheu: ${escapeHtml(state.selectedAnswerLabel)}.</span>
           <span>${result.detail}</span>
         </section>
 
@@ -879,6 +1022,21 @@ function trainingButton(name) {
   `;
 }
 
+function answerButton(answer) {
+  const isSafe = answer.type === "safe";
+
+  return `
+    <button
+      class="button ${isSafe ? "button-primary" : ""}"
+      type="button"
+      data-answer="${answer.type}"
+      data-answer-label="${escapeHtml(answer.label)}"
+    >
+      ${escapeHtml(answer.label)}
+    </button>
+  `;
+}
+
 function termButton(key, item) {
   return `
     <button class="${state.activeTerm === key ? "is-active" : ""}" type="button" data-term="${key}">
@@ -931,7 +1089,7 @@ function handleAppClick(event) {
   const answer = closestControl(event.target, "[data-answer]");
   if (answer) {
     event.preventDefault();
-    selectAnswer(answer.dataset.answer);
+    selectAnswer(answer.dataset.answer, answer.dataset.answerLabel);
     return;
   }
 
@@ -1012,8 +1170,9 @@ function closestControl(target, selector) {
   return element && app.contains(element) ? element : null;
 }
 
-function selectAnswer(answer) {
+function selectAnswer(answer, label = "") {
   state.selectedAnswer = answer;
+  state.selectedAnswerLabel = label || answer;
   state.progress.completed += 1;
 
   if (["safe", "help"].includes(state.selectedAnswer)) {
@@ -1108,13 +1267,14 @@ function speechTextForCurrentScreen() {
 
   if (route === "simulation") {
     const item = currentScenario();
-    return `Simulação. ${item.title}. Mensagem: ${item.message}. Sinal de atenção: ${item.clue}. O que você faria?`;
+    const answers = scenarioAnswers(item).map((answer) => answer.label).join(", ");
+    return `Simulação. ${item.title}. Mensagem: ${item.message}. Sinal de atenção: ${item.clue}. O que você faria? Opções: ${answers}.`;
   }
 
   if (route === "result") {
     const result = resultCopy[state.selectedAnswer] || resultCopy.safe;
     const item = currentScenario();
-    return `${result.title}. ${result.message} ${result.detail} Ação segura: ${item.safeAction}`;
+    return `${result.title}. Você escolheu: ${state.selectedAnswerLabel}. ${result.message} ${result.detail} Ação segura: ${item.safeAction}`;
   }
 
   if (route === "deviceHelp") {
@@ -1206,7 +1366,11 @@ function toggleFavoriteTerm(key) {
 }
 
 function progressPercent() {
-  return Math.min(100, Math.round((state.progress.completed / 6) * 100));
+  return Math.min(100, Math.round((state.progress.completed / totalScenarioCount()) * 100));
+}
+
+function totalScenarioCount() {
+  return Object.values(scenarios).reduce((total, list) => total + list.length, 0);
 }
 
 function detectDeviceBrand() {
