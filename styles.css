@@ -115,7 +115,8 @@ button {
   min-height: 0;
   grid-auto-rows: max-content;
   gap: var(--space-4);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: var(--space-4);
 }
 
@@ -140,6 +141,13 @@ button {
   gap: var(--space-2);
   border-bottom: 2px solid var(--color-border);
   padding: var(--space-2) var(--space-4);
+}
+
+.topbar-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .app[data-text-size="normal"] {
@@ -184,6 +192,7 @@ button {
   gap: var(--space-2);
   font-size: 1.32rem;
   font-weight: 950;
+  color: var(--color-base);
 }
 
 .brand-mark,
@@ -203,7 +212,17 @@ button {
   height: 34px;
   flex: 0 0 auto;
   border-radius: var(--radius);
-  background: var(--color-text);
+  background: var(--color-base);
+  color: var(--color-text);
+}
+
+.topbar:has(.brand) {
+  background: var(--color-secondary);
+}
+
+.topbar:has(.brand) .icon-button {
+  border-color: var(--color-base);
+  background: transparent;
   color: var(--color-base);
 }
 
@@ -913,11 +932,11 @@ button {
   justify-items: center;
   gap: var(--space-2);
   background: var(--color-surface);
-  padding: var(--space-3);
+  padding: var(--space-4) var(--space-3);
 }
 
 .screen[data-screen="dictionary"] .content {
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .screen[data-screen="dictionary"] .round-icon {
@@ -928,19 +947,21 @@ button {
 .dictionary-tabs {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .dictionary-tabs button {
   display: grid;
-  min-height: 48px;
+  min-height: 52px;
   place-items: center;
   border: 2px solid var(--color-border-soft);
   border-radius: var(--radius);
   background: var(--color-base);
   color: var(--color-text);
+  padding: 6px 4px;
   font-size: 0.78rem;
   font-weight: 850;
+  line-height: 1.05;
 }
 
 .dictionary-tabs button.is-active {
@@ -955,7 +976,7 @@ button {
 
 .favorite-button {
   display: inline-flex;
-  min-height: 34px;
+  min-height: 38px;
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
@@ -963,7 +984,7 @@ button {
   border-radius: 999px;
   background: var(--color-base);
   color: var(--color-text);
-  padding: 2px var(--space-3);
+  padding: 4px var(--space-3);
   font-size: 0.95rem;
   font-weight: 950;
 }
@@ -974,10 +995,10 @@ button {
 }
 
 .dictionary-card {
-  padding: var(--space-3);
+  padding: var(--space-4) var(--space-3);
   font-size: var(--font-large);
   font-weight: 850;
-  line-height: 1.28;
+  line-height: 1.24;
 }
 
 .dictionary-tip {
@@ -987,7 +1008,7 @@ button {
   align-items: center;
   border: 2px dashed var(--color-border-soft);
   border-radius: var(--radius);
-  padding: var(--space-2);
+  padding: var(--space-3);
   color: var(--color-muted);
   font-size: 1rem;
   font-weight: 750;
@@ -995,12 +1016,54 @@ button {
 }
 
 .dictionary-actions {
-  gap: var(--space-2);
-  transform: translateY(-10px);
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+  transform: none;
 }
 
 .dictionary-actions .button {
-  min-height: 46px;
+  min-height: 50px;
+}
+
+.screen[data-screen="dictionary"] .notice.mini-notice {
+  padding: var(--space-3);
+}
+
+.screen[data-screen="dictionary"] .notice-title {
+  line-height: 1.2;
+}
+
+@media (max-width: 390px) {
+  .screen[data-screen="dictionary"] .content {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .dictionary-tabs {
+    gap: 6px;
+  }
+
+  .dictionary-tabs button {
+    min-height: 46px;
+    padding: 4px 2px;
+    font-size: 0.74rem;
+  }
+
+  .dictionary-hero {
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-2);
+  }
+
+  .dictionary-card,
+  .dictionary-tip,
+  .screen[data-screen="dictionary"] .notice.mini-notice {
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .dictionary-actions {
+    gap: var(--space-2);
+    margin-top: 0;
+  }
 }
 
 .device-list {
@@ -1193,6 +1256,15 @@ button {
   padding: var(--space-1);
   font-size: 0.75rem;
   font-weight: 850;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.bottom-nav button span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .bottom-nav button:last-child {
@@ -1206,6 +1278,79 @@ button {
 
 .bottom-nav .material-symbols-rounded {
   font-size: 1.35rem;
+}
+
+@media (max-width: 390px) {
+  .topbar {
+    gap: 6px;
+    padding: var(--space-2);
+  }
+
+  .topbar-title,
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .topbar-actions {
+    gap: 4px;
+  }
+
+  .icon-button {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    border-width: 2px;
+    font-size: 1.05rem;
+  }
+
+  .screen[data-screen="deviceHelp"] .content {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .screen[data-screen="deviceHelp"] .device-list {
+    gap: 6px;
+  }
+
+  .screen[data-screen="deviceHelp"] .device-item {
+    min-height: 58px;
+    grid-template-columns: 30px 1fr;
+    gap: 6px;
+    padding: 6px 8px;
+    font-size: 0.88rem;
+  }
+
+  .screen[data-screen="deviceHelp"] .device-item .square-icon {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+    border-width: 2px;
+    font-size: 0.9rem;
+  }
+
+  .screen[data-screen="deviceHelp"] .step-panel,
+  .screen[data-screen="deviceHelp"] .mock-phone-shot {
+    padding: var(--space-2);
+  }
+
+  .screen[data-screen="deviceHelp"] .step-panel h3 {
+    font-size: 1.02rem;
+  }
+
+  .screen[data-screen="deviceHelp"] .step-panel ol {
+    padding-left: 20px;
+    font-size: 0.9rem;
+    line-height: 1.18;
+  }
+
+  .bottom-nav button {
+    padding: 4px 2px;
+    font-size: 0.68rem;
+  }
+
+  .bottom-nav .material-symbols-rounded {
+    font-size: 1.18rem;
+  }
 }
 
 .pill {

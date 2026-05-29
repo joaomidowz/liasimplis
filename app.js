@@ -506,9 +506,11 @@ function topbar(title, options = {}) {
     <header class="topbar">
       ${back}
       ${brand}
-      <button class="icon-button" type="button" data-action="speak" aria-label="Ouvir explicação">${icon("volume_up")}</button>
-      <button class="icon-button" type="button" data-action="voice-command" aria-label="Comando por voz">${icon("mic")}</button>
-      <button class="icon-button" type="button" data-action="toggle-text" aria-label="Alternar tamanho do texto">${icon("text_fields")}</button>
+      <div class="topbar-actions" aria-label="Ações rápidas">
+        <button class="icon-button" type="button" data-action="speak" aria-label="Ouvir explicação">${icon("volume_up")}</button>
+        <button class="icon-button" type="button" data-action="voice-command" aria-label="Comando por voz">${icon("mic")}</button>
+        <button class="icon-button" type="button" data-action="toggle-text" aria-label="Alternar tamanho do texto">${icon("text_fields")}</button>
+      </div>
     </header>
   `;
 }
@@ -715,7 +717,7 @@ function renderTrainingStart() {
         </section>
 
         <div class="screen-actions">
-          <button class="button button-primary" type="button" data-action="begin-simulation">${icon("shuffle")} Caso aleatório</button>
+          <button class="button button-primary" type="button" data-action="begin-simulation">${icon("play_arrow")} Iniciar treino!</button>
           <button class="button" type="button" data-route="trainings">Voltar</button>
         </div>
       </div>
@@ -879,7 +881,7 @@ function renderDeviceHelp() {
 
   return `
     <article class="screen has-nav" data-screen="deviceHelp">
-      ${topbar("Conserta Celular", { backRoute: "home" })}
+      ${topbar("Consertar Celular", { backRoute: "home" })}
       <div class="content">
         <section class="screen-heading compact-heading">
           <h1 class="title">Qual é o problema?</h1>
